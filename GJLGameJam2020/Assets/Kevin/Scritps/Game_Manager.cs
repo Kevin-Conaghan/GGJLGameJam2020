@@ -19,40 +19,41 @@ public class Game_Manager : MonoBehaviour
     private int m_displayTimer;
     public Text timerText;
 
-    private GameState m_gameState;
+    public int playerScore;
 
-    private Interactable[] m_interactablesSpawned;
+    private bool m_isInitialized;
+
+    public GameState m_gameState;
+
+    public GameObject[] m_interactablesSpawned;
 
     // Start is called before the first frame update
     void Start()
     {
         m_gameState = GameState.Start;
         m_gameTimer = timeLimit;
+
+        m_interactablesSpawned = GameObject.FindGameObjectsWithTag("Interactable");
     }
 
     // Update is called once per frame
     void Update()
     {
-
         switch (m_gameState)
         {
             case GameState.Start:
                 //input menu functionality here
                 m_gameState = GameState.Playing;
                 break;
-            case GameState.Playing:
+            case GameState.Playing:          
                 //Add gameplay here
                 UpdateTimer();
-
-
-
                 break;
             case GameState.GameOver:
                 break;
             case GameState.Outro:
                 break;
         };
-
     }
 
     void UpdateTimer()
@@ -63,5 +64,15 @@ public class Game_Manager : MonoBehaviour
 
         //set timer text
         timerText.text = m_displayTimer.ToString();
+    }
+
+    public void SetPlayerScore(int score)
+    {
+        playerScore += score;
+    }
+
+    public void DestroyInteractable(GameObject currObj)
+    {
+        Destroy(currObj);
     }
 }
