@@ -59,11 +59,6 @@ public class Game_Manager : MonoBehaviour
                 }
 
                 break;
-            case GameState.GameOver:
-
-                break;
-            case GameState.Outro:
-                break;
         };
     }
 
