@@ -19,6 +19,7 @@ public struct ItemAttributes
 
 public class Item : MonoBehaviour
 {
+    public GameObject thisItemPrefab;
     private Character_Inventory m_playerInventory;
     private bool m_isInTrigger;
 
@@ -46,7 +47,14 @@ public class Item : MonoBehaviour
                     {
                         m_playerInventory.GetComponent<Character_Inventory>().SetPocketedItem(m_itemDetails.itemName, m_itemDetails.itemMesh, m_itemDetails.itemMaterial);
 
-                        Destroy(this.gameObject);
+                        this.gameObject.transform.parent = m_playerInventory.transform;
+                        this.gameObject.transform.position = m_playerInventory.transform.position + m_playerInventory.transform.forward;
+                        this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+                        //Destroy all components apart form the mesh so the player can carry it about
+                        Destroy(this.GetComponent<SphereCollider>());
+                        Destroy(this.GetComponent<BoxCollider>());  
+                        Destroy(this);
                     }
                 }
 

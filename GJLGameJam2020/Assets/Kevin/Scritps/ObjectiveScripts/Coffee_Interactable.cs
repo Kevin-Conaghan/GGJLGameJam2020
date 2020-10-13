@@ -8,6 +8,8 @@ public class Coffee_Interactable : Interactable
     public string m_completionItemName;
     public string m_requiredItemName;
 
+    public bool isDestroyItem;
+
     // Update is called once per frame
     protected override void Update()
     {
@@ -26,6 +28,17 @@ public class Coffee_Interactable : Interactable
 
             UpdateObjectiveTask(objectiveTime);
 
+        }
+
+        if (isDestroyItem)
+        {
+            if(m_isObjectiveCompleted)
+            {
+                if (playerObject.transform.childCount > 0)
+                {
+                    Destroy(playerObject.transform.GetChild(0).gameObject);
+                }
+            }
         }
     }
 

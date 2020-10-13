@@ -15,7 +15,7 @@ public class Interactable : MonoBehaviour
 
     protected bool m_isInTrigger;
     protected bool m_isDoingTask;
-    private bool m_isObjectiveCompleted;
+    protected bool m_isObjectiveCompleted;
 
     //UI Variables
     public Text randDialogue;

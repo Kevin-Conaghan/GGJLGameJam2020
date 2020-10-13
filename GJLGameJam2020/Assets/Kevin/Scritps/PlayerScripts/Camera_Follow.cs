@@ -22,4 +22,8 @@ public class Camera_Follow : MonoBehaviour
         Vector3 newCamPos = playerTransform.position - cameraDistance;
         transform.position = newCamPos;
     }
+
+
+
+    
 }
