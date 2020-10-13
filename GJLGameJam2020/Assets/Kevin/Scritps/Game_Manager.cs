@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -48,8 +49,18 @@ public class Game_Manager : MonoBehaviour
             case GameState.Playing:          
                 //Add gameplay here
                 UpdateTimer();
+
+                if (m_gameTimer <= 0)
+                {
+                    //Save the player score for displaying in the game over scene
+                    PlayerPrefs.SetInt("Score", playerScore);
+                    //load the game over scene
+                    SceneManager.LoadScene("GameOver");
+                }
+
                 break;
             case GameState.GameOver:
+
                 break;
             case GameState.Outro:
                 break;
