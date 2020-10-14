@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Interactable : MonoBehaviour
 {
     //time taken to complete objective
+    public string objectiveName;
     public float objectiveTime;
     public int objectiveScore;
 

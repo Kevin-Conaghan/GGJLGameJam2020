@@ -27,6 +27,7 @@ public class Game_Manager : MonoBehaviour
     public GameState m_gameState;
 
     public GameObject[] m_interactablesSpawned;
+    public Text objectiveList;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,18 @@ public class Game_Manager : MonoBehaviour
         m_gameTimer = timeLimit;
 
         m_interactablesSpawned = GameObject.FindGameObjectsWithTag("Interactable");
+
+        for (int i = 0; i < m_interactablesSpawned.Length; i++)
+        {
+            //add number of objective
+            int objectiveNum = i + 1;
+            objectiveList.text += objectiveNum.ToString() + ". ";
+            //grab the objective name
+            string tempstr = m_interactablesSpawned[i].GetComponent<Interactable>().objectiveName;
+            //concat the number with the objective name
+            objectiveList.text += tempstr + "\n";
+
+        }
     }
 
     // Update is called once per frame
@@ -46,7 +59,7 @@ public class Game_Manager : MonoBehaviour
                 //input menu functionality here
                 m_gameState = GameState.Playing;
                 break;
-            case GameState.Playing:          
+            case GameState.Playing:
                 //Add gameplay here
                 UpdateTimer();
 
