@@ -70,4 +70,12 @@ public class Item : MonoBehaviour
             m_isInTrigger = true;
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            m_isInTrigger = false;
+        }
+    }
 }

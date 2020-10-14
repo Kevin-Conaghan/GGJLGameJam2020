@@ -27,7 +27,7 @@ public class Interactable : MonoBehaviour
 
     protected Character_Movement playerMovement;
     protected GameObject playerObject;
-    private Game_Manager currGameManager;
+    protected Game_Manager currGameManager;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -35,6 +35,10 @@ public class Interactable : MonoBehaviour
         //find the player object so we can reference the movement script and control locking/unlocking of movement
         GameObject tempObject = GameObject.FindGameObjectWithTag("Player");
         playerMovement = tempObject.GetComponent<Character_Movement>();
+
+        tempObject = GameObject.FindGameObjectWithTag("GameManager");
+        currGameManager = tempObject.GetComponent<Game_Manager>();
+
         //reset temp for later use
         tempObject = null;
         m_isInTrigger = false;
@@ -139,8 +143,6 @@ public class Interactable : MonoBehaviour
         {
             m_isObjectiveCompleted = true;
             //send score to game manager and then destroy 
-            GameObject tempObject = GameObject.FindGameObjectWithTag("GameManager");
-            currGameManager = tempObject.GetComponent<Game_Manager>();
             playerMovement.SetLockMovement(false);
 
             GameObject.Destroy(m_objectiveDurationSlider.gameObject);
