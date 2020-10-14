@@ -26,26 +26,40 @@ public class Game_Manager : MonoBehaviour
 
     public GameState m_gameState;
 
-    public GameObject[] m_interactablesSpawned;
+    public List<GameObject> m_interactablesSpawned;
+    private List<Text> m_objectiveTextList;
     public Text objectiveList;
+    public GameObject objectivePanel;
+    private int indentVal = -50;
+
+    private Vector3 m_objTextTransform;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_gameState = GameState.Start;
+        m_gameState = GameState.Playing;
         m_gameTimer = timeLimit;
 
-        m_interactablesSpawned = GameObject.FindGameObjectsWithTag("Interactable");
+        m_objectiveTextList = new List<Text>();
+        m_interactablesSpawned = new List<GameObject>();
 
-        for (int i = 0; i < m_interactablesSpawned.Length; i++)
+        GameObject[] tempArray = GameObject.FindGameObjectsWithTag("Interactable");
+
+        for (int i = 0; i < tempArray.Length; i++)
         {
-            //add number of objective
-            int objectiveNum = i + 1;
-            objectiveList.text += objectiveNum.ToString() + ". ";
+            m_interactablesSpawned.Add(tempArray[i]);
+        }
+
+        for (int i = 0; i < m_interactablesSpawned.Count; i++)
+        {
+            Text tempText = Instantiate(objectiveList, objectivePanel.transform.position + new Vector3(0.0f, -indentVal), Quaternion.identity, objectivePanel.transform);
+            m_objectiveTextList.Add(tempText);
             //grab the objective name
             string tempstr = m_interactablesSpawned[i].GetComponent<Interactable>().objectiveName;
             //concat the number with the objective name
-            objectiveList.text += tempstr + "\n";
+            tempText.text += tempstr + "\n";
+            indentVal += 20;
+
 
         }
     }
@@ -92,6 +106,39 @@ public class Game_Manager : MonoBehaviour
 
     public void DestroyInteractable(GameObject currObj)
     {
+        DestroyUIObjective(currObj);
         Destroy(currObj);
+    }
+
+    void DestroyUIObjective(GameObject currObj)
+    {
+        bool hasBeenDeleted = false;    
+
+        for (int i = 0; i < m_objectiveTextList.Count; i++)
+        {
+            if (currObj == m_interactablesSpawned[i])
+            {
+                //store the transform of the text before we destroy it
+                m_objTextTransform = m_objectiveTextList[i].transform.position;
+                //remove the reference for both the game object and the corresponding text
+                m_objectiveTextList.Remove(m_objectiveTextList[i]);
+                m_interactablesSpawned.Remove(m_interactablesSpawned[i]);
+
+                //destroy the text
+                GameObject tempObject = m_objectiveTextList[i].gameObject;
+                Destroy(tempObject);
+
+                hasBeenDeleted = true;
+                
+            }
+
+            if (hasBeenDeleted && i != m_objectiveTextList.Count)
+            {
+                //shuffle the list up a position
+                Vector3 tempPosition = m_objectiveTextList[i].transform.position;
+                m_objectiveTextList[i].transform.position = m_objTextTransform;
+                m_objTextTransform = tempPosition;  
+            }
+        }
     }
 }

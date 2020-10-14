@@ -19,7 +19,6 @@ public class Interactable : MonoBehaviour
     protected bool m_isObjectiveCompleted;
 
     //UI Variables
-    public Text randDialogue;
     public Slider objectiveDurTemplate;
     private Slider m_objectiveDurationSlider;
     private Canvas m_InteractableCanvas;
@@ -71,9 +70,11 @@ public class Interactable : MonoBehaviour
 
         if (m_isDoingTask)
         {
-            //lock the players movement while interacting
-            playerMovement.SetLockMovement(true);
-
+            if (!playerMovement.GetLockMovment())
+            {
+                //lock the players movement while interacting
+                playerMovement.SetLockMovement(true);
+            }
             //carry out objective
             UpdateObjectiveTask(objectiveTime);
            
@@ -101,18 +102,21 @@ public class Interactable : MonoBehaviour
 
     protected void UpdateUIElements()
     {
-        //get the position in world space that we want the ui to be displayed on
-        float UIOffset = this.transform.position.y + 0.5f;
-        Vector3 offsetPos = new Vector3(this.transform.position.x, UIOffset, this.transform.position.z);
+        if (!m_objectiveDurationSlider.IsDestroyed())
+        {
+            //get the position in world space that we want the ui to be displayed on
+            float UIOffset = this.transform.position.y + 0.5f;
+            Vector3 offsetPos = new Vector3(this.transform.position.x, UIOffset, this.transform.position.z);
 
-        Vector2 canvasPos;
-        //convert the world space position to screen space
-        Vector2 screenPoint = Camera.main.WorldToScreenPoint(offsetPos);
+            Vector2 canvasPos;
+            //convert the world space position to screen space
+            Vector2 screenPoint = Camera.main.WorldToScreenPoint(offsetPos);
 
-        //Convert screen spave to Canvas space
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_canvasRect, screenPoint, null, out canvasPos);
+            //Convert screen spave to Canvas space
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(m_canvasRect, screenPoint, null, out canvasPos);
 
-        m_objectiveDurationSlider.gameObject.transform.localPosition = canvasPos;
+            m_objectiveDurationSlider.gameObject.transform.localPosition = canvasPos;
+        }
     }
 
     protected void UpdateObjectiveTask(float objectiveMaxTime)
@@ -130,6 +134,7 @@ public class Interactable : MonoBehaviour
             UpdateUIElements();
         }
 
+        //increment objective timer
         m_currObjTime += Time.deltaTime;
 
         //make sure slider has been created
@@ -145,8 +150,10 @@ public class Interactable : MonoBehaviour
             m_isObjectiveCompleted = true;
             //send score to game manager and then destroy 
             playerMovement.SetLockMovement(false);
-
-            GameObject.Destroy(m_objectiveDurationSlider.gameObject);
+            if (!m_objectiveDurationSlider.IsDestroyed())
+            {
+                GameObject.Destroy(m_objectiveDurationSlider.gameObject);
+            }
             SendObjectiveScore(objectiveScore);
             DestroyMePls();
         }

@@ -118,4 +118,9 @@ public class Character_Movement : MonoBehaviour
     {
         return (int)chairScore;
     }
+
+    public bool GetLockMovment()
+    {
+        return m_lockMovement;
+    }
 }
