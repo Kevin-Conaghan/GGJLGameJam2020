@@ -47,9 +47,19 @@ public class Item : MonoBehaviour
                     {
                         m_playerInventory.GetComponent<Character_Inventory>().SetPocketedItem(m_itemDetails.itemName, m_itemDetails.itemMesh, m_itemDetails.itemMaterial);
 
+                        this.gameObject.transform.position = m_playerInventory.gameObject.transform.position;
                         this.gameObject.transform.parent = m_playerInventory.transform;
-                        this.gameObject.transform.position = m_playerInventory.transform.position + m_playerInventory.transform.forward;
+                        this.gameObject.transform.localRotation = m_playerInventory.gameObject.transform.rotation;
+                        this.gameObject.transform.localPosition = new Vector3(0.0f, 1.5f, 0.7f);
                         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+                        if (this.gameObject.GetComponent<Animator>())
+                        {
+                            Animator currAnim = this.gameObject.GetComponent<Animator>();
+
+                            currAnim.SetBool("isAnimating", false);
+                            this.gameObject.transform.localRotation = Quaternion.identity;
+                        }
 
                         //Destroy all components apart form the mesh so the player can carry it about
                         Destroy(this.GetComponent<SphereCollider>());

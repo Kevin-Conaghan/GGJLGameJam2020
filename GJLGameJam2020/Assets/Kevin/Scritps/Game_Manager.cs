@@ -120,13 +120,13 @@ public class Game_Manager : MonoBehaviour
             {
                 //store the transform of the text before we destroy it
                 m_objTextTransform = m_objectiveTextList[i].transform.position;
-                //remove the reference for both the game object and the corresponding text
-                m_objectiveTextList.Remove(m_objectiveTextList[i]);
-                m_interactablesSpawned.Remove(m_interactablesSpawned[i]);
 
                 //destroy the text
                 GameObject tempObject = m_objectiveTextList[i].gameObject;
                 Destroy(tempObject);
+                //remove the reference for both the game object and the corresponding text
+                m_objectiveTextList.Remove(m_objectiveTextList[i]);
+                m_interactablesSpawned.Remove(m_interactablesSpawned[i]);
 
                 hasBeenDeleted = true;
                 
