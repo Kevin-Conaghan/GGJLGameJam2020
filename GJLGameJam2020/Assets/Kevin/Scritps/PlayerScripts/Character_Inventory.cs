@@ -23,6 +23,7 @@ public class Character_Inventory : MonoBehaviour
         return pocketedItem.hasItem;
     }
 
+
     public bool SetPocketedItem(string name, Mesh currMesh, Material currMaterial, bool item)
     {
         pocketedItem = new ItemAttributes(name, currMesh, currMaterial, item);
@@ -33,5 +34,9 @@ public class Character_Inventory : MonoBehaviour
     public bool SetPocketedItem(string name)
     {
         return SetPocketedItem(name, pocketedItem.itemMesh, pocketedItem.itemMaterial, true);
+    }
+    public bool SetPocketedItem(bool item)
+    {
+        return SetPocketedItem(pocketedItem.itemName, pocketedItem.itemMesh, pocketedItem.itemMaterial, item);
     }
 }

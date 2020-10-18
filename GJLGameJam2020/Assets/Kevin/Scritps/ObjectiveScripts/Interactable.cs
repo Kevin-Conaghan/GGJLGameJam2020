@@ -106,7 +106,7 @@ public class Interactable : MonoBehaviour
         if (!m_objectiveDurationSlider.IsDestroyed())
         {
             //get the position in world space that we want the ui to be displayed on
-            float UIOffset = this.transform.position.y + 0.5f;
+            float UIOffset = this.transform.position.y + 2f;
             Vector3 offsetPos = new Vector3(this.transform.position.x, UIOffset, this.transform.position.z);
 
             Vector2 canvasPos;

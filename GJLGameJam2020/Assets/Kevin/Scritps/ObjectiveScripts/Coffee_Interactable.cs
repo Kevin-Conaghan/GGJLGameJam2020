@@ -25,8 +25,11 @@ public class Coffee_Interactable : Interactable
         {
             //lock the players movement while interacting
             playerMovement.SetLockMovement(true);
-
-            UpdateObjectiveTask(objectiveTime);
+            if (gameObject.name != "Coffee_Machine")
+            {
+                transform.LookAt(playerMovement.gameObject.transform);
+            }
+                UpdateObjectiveTask(objectiveTime);
 
         }
 
@@ -37,6 +40,7 @@ public class Coffee_Interactable : Interactable
                 if (playerObject.transform.childCount > 0)
                 {
                     Destroy(playerObject.transform.GetChild(1).gameObject);
+                    m_playerInventory.SetPocketedItem(false);
                 }
             }
         }
