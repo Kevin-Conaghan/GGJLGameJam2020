@@ -36,7 +36,7 @@ public class Coffee_Interactable : Interactable
             {
                 if (playerObject.transform.childCount > 0)
                 {
-                    Destroy(playerObject.transform.GetChild(0).gameObject);
+                    Destroy(playerObject.transform.GetChild(1).gameObject);
                 }
             }
         }

@@ -20,6 +20,7 @@ public class Interactable : MonoBehaviour
 
     //UI Variables
     public Slider objectiveDurTemplate;
+
     private Slider m_objectiveDurationSlider;
     private Canvas m_InteractableCanvas;
     private RectTransform m_canvasRect;

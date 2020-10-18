@@ -27,17 +27,16 @@ public class Character_Movement : MonoBehaviour
 
     private void Update()
     {
-
         if (!m_lockMovement && !m_isInChair)
         {
-            float moveHorizontal = Input.GetAxis("Horizontal") * speed;
-            float moveVertical = Input.GetAxis("Vertical") * speed;
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-            movement = new Vector3(moveHorizontal, rb.velocity.y, moveVertical);
-            transform.LookAt(transform.position + new Vector3(movement.x, 0, movement.z));
+            movement = new Vector3(moveHorizontal, rb.velocity.y, moveVertical) * speed * Time.deltaTime;
+            transform.Translate(movement, Space.Self);
         }
 
-        if( !m_lockMovement && (m_isInChair && !m_isDecelerating))
+        if ( !m_lockMovement && (m_isInChair && !m_isDecelerating))
         {
             //player is in the chair, initiate thursters ALL SYSTEMS GO
             float moveHorizontal = Input.GetAxis("Horizontal");
@@ -64,16 +63,6 @@ public class Character_Movement : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (!m_lockMovement && !m_isInChair)
-        { 
-            rb.velocity = movement;
-        }
-        else
-        {
-            //stop velocity completely so the player cant skid away
-            rb.velocity = new Vector3(0.0f, 0.0f, 0.0f);
-        }
-
         if(!m_lockMovement && m_isInChair)
         {
             if(m_isAddingForce)

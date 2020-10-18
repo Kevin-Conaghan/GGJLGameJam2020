@@ -18,15 +18,20 @@ public class Character_Inventory : MonoBehaviour
         return pocketedItem.itemName;
     }
 
-    public bool SetPocketedItem(string name, Mesh currMesh, Material currMaterial)
+    public bool GetHasItem()
     {
-        pocketedItem = new ItemAttributes(name, currMesh, currMaterial);
+        return pocketedItem.hasItem;
+    }
+
+    public bool SetPocketedItem(string name, Mesh currMesh, Material currMaterial, bool item)
+    {
+        pocketedItem = new ItemAttributes(name, currMesh, currMaterial, item);
         Debug.Log(pocketedItem.itemName);
         return true;
     }
 
     public bool SetPocketedItem(string name)
     {
-        return SetPocketedItem(name, pocketedItem.itemMesh, pocketedItem.itemMaterial);
+        return SetPocketedItem(name, pocketedItem.itemMesh, pocketedItem.itemMaterial, true);
     }
 }

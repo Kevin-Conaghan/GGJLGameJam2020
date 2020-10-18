@@ -7,12 +7,14 @@ public struct ItemAttributes
     public string itemName;
     public Mesh itemMesh;
     public Material itemMaterial;
+    public bool hasItem;
 
-    public ItemAttributes(string name, Mesh currMesh, Material currMaterial)
+    public ItemAttributes(string name, Mesh currMesh, Material currMaterial, bool Item)
     {
         this.itemName = name;
         this.itemMesh = currMesh;
         this.itemMaterial = currMaterial;
+        this.hasItem = Item;
     }
 
 }
@@ -30,7 +32,8 @@ public class Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_itemDetails = new ItemAttributes(itemName, this.gameObject.GetComponent<Mesh>(), this.gameObject.GetComponent<Material>());
+        m_itemDetails = new ItemAttributes(itemName, this.gameObject.GetComponent<Mesh>(), this.gameObject.GetComponent<Material>(), false);
+
     }
 
     // Update is called once per frame
@@ -39,18 +42,17 @@ public class Item : MonoBehaviour
         if (m_isInTrigger)
         {
             if (Input.GetKeyDown(KeyCode.E))
-            {
-
+            { 
                 if (m_playerInventory != null)
                 {
-                    if (m_playerInventory.GetPocketedItemName() != "")
+                    if (!m_playerInventory.GetHasItem())
                     {
-                        m_playerInventory.GetComponent<Character_Inventory>().SetPocketedItem(m_itemDetails.itemName, m_itemDetails.itemMesh, m_itemDetails.itemMaterial);
+                        m_playerInventory.GetComponent<Character_Inventory>().SetPocketedItem(m_itemDetails.itemName, m_itemDetails.itemMesh, m_itemDetails.itemMaterial, true);
 
                         this.gameObject.transform.position = m_playerInventory.gameObject.transform.position;
                         this.gameObject.transform.parent = m_playerInventory.transform;
                         this.gameObject.transform.localRotation = m_playerInventory.gameObject.transform.rotation;
-                        this.gameObject.transform.localPosition = new Vector3(0.0f, 1.5f, 0.7f);
+                        this.gameObject.transform.localPosition = new Vector3(-1.0f, 1.5f, 0.0f);
                         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
 
                         if (this.gameObject.GetComponent<Animator>())
